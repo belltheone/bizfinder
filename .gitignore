@@ -1,0 +1,21 @@
+# 환경 변수 파일 (API 키 보호)
+.env
+
+# 데이터베이스
+biz_intelligence.db
+
+# 임시 다운로드 파일
+temp/
+
+# Python 캐시
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# 예시 공고문
+api_doc/
+already_file/
