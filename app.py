@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config
 from database.dao import ProjectDAO, ExhibitionDAO, get_connection, init_database
 from core.file_parser import FileParser
-from intelligence.ai_analyzer import AIAnalyzer
+from intelligence.ai_analyzer import AIAnalyzer, SYSTEM_PROMPT
 
 # ── 환경 변수 로드 ──
 load_dotenv()
@@ -621,6 +621,7 @@ def render_tab_lab():
                 else:
                     st.warning("⚠️ 이미 DB에 존재하는 공고이거나 저장에 실패했습니다.")
 
+
     # ── [NEW] 분석 알고리즘 안내 (하단 배치, 항상 표시) ──
     st.markdown("---")
     with st.expander("ℹ️ AI 분석 알고리즘 상세 보기 (필수 확인)", expanded=True):
@@ -651,6 +652,11 @@ def render_tab_lab():
         
         수십 페이지짜리 공고문에서 **우리 회사(STLABS, Stratio)에 꼭 필요한 정보**만 쏙쏙 뽑아냅니다. 특히 중요한 부분은 **`★` 별표**와 함께 강조하고, 복잡한 서류나 까다로운 조건은 알기 쉽게 정리해 드립니다.
         """)
+
+    # ── [NEW] 시스템 프롬프트 원문 공개 (전문가용) ──
+    with st.expander("🔧 AI 시스템 프롬프트 원문 (Advanced)", expanded=False):
+        st.caption("AI가 실제로 사용하는 시스템 명령어(System Prompt)입니다. 분석 로직의 모든 세부 규칙이 포함되어 있습니다.")
+        st.code(SYSTEM_PROMPT, language="markdown")
 
 
 # ═══════════════════════════════════════════════════════════
