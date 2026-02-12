@@ -30,7 +30,21 @@ TEST_SAMPLES_DIR = os.path.join(BASE_DIR, "tests", "samples")
 
 # ── OpenAI API 설정 ──
 # 환경 변수에서 API 키를 읽어옴 (보안을 위해 코드에 직접 작성하지 않음)
+import streamlit as st
+
+# ... (중략) ...
+
+# ── OpenAI API 설정 ──
+# 1. 환경 변수 확인 (우선순위 1)
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
+# 2. Streamlit Secrets 확인 (Cloud 배포 환경 대비)
+if not OPENAI_API_KEY:
+    try:
+        # st.secrets는 딕셔너리처럼 동작
+        OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY", "")
+    except Exception:
+        pass  # secrets.toml 없음 등 예외 무시
 OPENAI_MODEL = "gpt-4o-mini"  # 대량 텍스트 처리에 최적화된 모델
 
 # ── 기업마당 (Bizinfo) API 설정 ──
