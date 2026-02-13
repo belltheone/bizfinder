@@ -502,6 +502,29 @@ def render_tab_lab():
     if text_to_analyze:
         with st.expander("📄 추출된 텍스트 미리보기", expanded=False):
             st.text(text_to_analyze[:3000] + ("..." if len(text_to_analyze) > 3000 else ""))
+        
+        # ── 파싱 텍스트 다운로드 버튼 ──
+        dl_col1, dl_col2 = st.columns(2)
+        # 파일명 생성 (제목이 있으면 사용, 없으면 기본값)
+        base_name = title_input.strip().replace(" ", "_")[:30] if title_input.strip() else "parsed_output"
+        with dl_col1:
+            st.download_button(
+                label="📥 .txt 다운로드",
+                data=text_to_analyze,
+                file_name=f"{base_name}.txt",
+                mime="text/plain",
+                use_container_width=True,
+            )
+        with dl_col2:
+            # 마크다운 형식: 제목 헤더 추가
+            md_content = f"# {title_input or '파싱 결과'}\n\n{text_to_analyze}"
+            st.download_button(
+                label="📥 .md 다운로드",
+                data=md_content,
+                file_name=f"{base_name}.md",
+                mime="text/markdown",
+                use_container_width=True,
+            )
 
     if st.button("🚀 AI 분석 시작", type="primary", use_container_width=True):
         if not text_to_analyze or len(text_to_analyze.strip()) < 10:
